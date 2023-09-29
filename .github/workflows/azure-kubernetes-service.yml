@@ -21,7 +21,7 @@ jobs:
       run: az acr login --name acrtesting123.azurecr.io --username ${{ secrets.ACR_USERNAME }} --password ${{ secrets.ACR_PASSWORD }}
 
     - name: Tag Docker image for ACR
-      run: docker tag sample-app-image:tag acrtesting123.azurecr.io/mcr.microsoft.com/mcr/hello-world 
+      run: docker tag mcr.microsoft.com/mcr/hello-world acrtesting123.azurecr.io/mcr.microsoft.com/mcr/hello-world 
 
     - name: Push Docker image to Azure Container Registry
       run: docker push acrtesting123.azurecr.io/mcr.microsoft.com/mcr/hello-world
