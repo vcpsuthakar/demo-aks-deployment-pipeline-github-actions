@@ -1,38 +1,36 @@
-name: CI/CD for Azure Kubernetes Service
+name: Azure Kubernetes Service CI/CD
 
 on:
   workflow_dispatch:
- 
+
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
 
+    - name: Login to Docker Hub
+      run: echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u ${{ secrets.DOCKERHUB_USERNAME }} --password-stdin
+
+    - name: Pull sample app image from Docker Hub
+      run: docker pull mcr.microsoft.com/mcr/hello-world 
+
     - name: Login to Azure Container Registry
-      uses: azure/docker-login@v1
-      with:
-        login-server: acrtesting123.azurecr.io 
-        username: ${{ secrets.ACR_USERNAME }}
-        password: ${{ secrets.ACR_PASSWORD }}
+      run: az acr login --name acrtesting123.azurecr.io --username ${{ secrets.ACR_USERNAME }} --password ${{ secrets.ACR_PASSWORD }}
 
-    - name: Pull Docker image from Docker Hub
-      run: docker pull mcr.microsoft.com/hello-world
-      
     - name: Tag Docker image for ACR
-      run: docker tag mcr.microsoft.com/hello-world acrtesting123.azurecr.io/hello-world:v1
+      run: docker tag sample-app-image:tag acrtesting123.azurecr.io/mcr.microsoft.com/mcr/hello-world 
 
-    - name: Push Docker image to ACR
-      run: docker push acrtesting123.azurecr.io/hello-world:v1
+    - name: Push Docker image to Azure Container Registry
+      run: docker push acrtesting123.azurecr.io/mcr.microsoft.com/mcr/hello-world
 
-    - name: Deploy to AKS
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
+    - name: Deploy to Azure Kubernetes Service
       run: |
-        echo "$KUBE_CONFIG_DATA" | base64 --decode > kubeconfig.yaml
-        kubectl config use-context akstesting
         kubectl apply -f Deployment.yml
-        kubectl apply -f service.yml
         kubectl apply -f ingress.yml
+        kubectl apply -f service.yml
+      env:
+        KUBECONFIG: ${{ secrets.KUBE_CONFIG }}
+
