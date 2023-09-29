@@ -13,44 +13,21 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v2
 
-    - name: Set up Docker
-      uses: docker/setup-docker@v2
-      with:
-        dockerfile: Dockerfile
-
-    - name: Build Docker image
-      run: docker build -t your-docker-image-name:latest .
-
     - name: Login to Azure Container Registry
       uses: azure/docker-login@v1
       with:
-        login-server: <your-acr-name>.azurecr.io # Replace with your Azure Container Registry (ACR) name
+        login-server: acrtesting123.azurecr.io 
         username: ${{ secrets.ACR_USERNAME }}
         password: ${{ secrets.ACR_PASSWORD }}
 
+    - name: Pull Docker image from Docker Hub
+      run: docker pull hello-world
+      
+    - name: Tag Docker image for ACR
+      run: docker tag dockerhubusername/your-docker-image:latest acrtesting123.azurecr.io/hello-world
+
     - name: Push Docker image to ACR
-      run: |
-        docker push <your-acr-name>.azurecr.io/your-docker-image-name:latest
-
-    - name: Deploy to AKS
-      env:
-        KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
-      run: |
-        echo "$KUBE_CONFIG_DATA" | base64 --decode > kubeconfig.yaml
-        kubectl config use-context <your-aks-context-name>
-        kubectl apply -f Deployment.yml
-        kubectl apply -f service.yml
-        kubectl apply -f ingress.yml
-
-# Add additional steps for testing, linting, etc. as needed
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+      run: docker push acrtesting123.azurecr.io/hello-world
 
     - name: Deploy to AKS
       env:
