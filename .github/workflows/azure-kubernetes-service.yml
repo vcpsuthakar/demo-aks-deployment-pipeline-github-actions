@@ -32,7 +32,7 @@ jobs:
         KUBE_CONFIG_DATA: ${{ secrets.KUBE_CONFIG_DATA }}
       run: |
         echo "$KUBE_CONFIG_DATA" | base64 --decode > kubeconfig.yaml
-        kubectl config use-context <your-aks-context-name>
+        kubectl config use-context akstesting
         kubectl apply -f Deployment.yml
         kubectl apply -f service.yml
         kubectl apply -f ingress.yml
