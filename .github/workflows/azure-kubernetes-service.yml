@@ -19,7 +19,7 @@ jobs:
         password: ${{ secrets.ACR_PASSWORD }}
 
     - name: Pull Docker image from Docker Hub
-      run: mcr.microsoft.com/hello-world
+      run: docker pull mcr.microsoft.com/hello-world
       
     - name: Tag Docker image for ACR
       run: docker tag mcr.microsoft.com/hello-world acrtesting123.azurecr.io/hello-world:v1
