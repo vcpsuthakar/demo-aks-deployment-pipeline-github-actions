@@ -30,7 +30,15 @@ jobs:
       uses: azure/login@v1
       with:
           creds: ${{ secrets.AZURE_CREDENTIALS }}
-
+          
+    - name: Set Kubernetes Context for AKS Cluster
+      uses: azure/aks-set-context@v1
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        cluster-name: akstesting
+        resource-group: aks-demo
+        cluster-context: akstesting
+        
     - name: Deploy to AKS
       uses: Azure/k8s-deploy@v1
       with:
