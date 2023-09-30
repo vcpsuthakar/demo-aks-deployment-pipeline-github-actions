@@ -44,9 +44,9 @@ jobs:
       with:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           manifests: |
-            kubernetes/Deployment.yaml
-            kubernetes/Service.yaml
-            kubernetes/Ingress.yaml
+            ./kubernetes/Deployment.yaml
+            ./kubernetes/Service.yaml
+            ./kubernetes/Ingress.yaml
       env:
         KUBECONFIG: ${{ secrets.KUBE_CONFIG }}
 
