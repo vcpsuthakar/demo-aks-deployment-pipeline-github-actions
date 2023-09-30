@@ -29,8 +29,8 @@ jobs:
     - name: Deploy to Azure Kubernetes Service
       run: |
         kubectl apply -f Deployment.yml
-        kubectl apply -f ingress.yml
-        kubectl apply -f service.yml
+       # kubectl apply -f ingress.yml
+       # kubectl apply -f service.yml
       env:
         KUBECONFIG: ${{ secrets.KUBE_CONFIG }}
 
