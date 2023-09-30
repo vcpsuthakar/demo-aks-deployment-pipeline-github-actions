@@ -26,11 +26,19 @@ jobs:
     - name: Push Docker image to Azure Container Registry
       run: docker push acrtesting123.azurecr.io/mcr.microsoft.com/mcr/hello-world
 
-    - name: Deploy to Azure Kubernetes Service
-      run: |
-        kubectl apply -f Deployment.yml
-       # kubectl apply -f ingress.yml
-       # kubectl apply -f service.yml
+    - name: Set up Azure CLI
+      uses: azure/login@v1
+      with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy to AKS
+      uses: Azure/k8s-deploy@v1
+      with:
+          kubeconfig: ${{ secrets.KUBECONFIG }}
+          manifests: |
+            path/to/Deployment.yaml
+            path/to/Service.yaml
+            path/to/Ingress.yaml
       env:
         KUBECONFIG: ${{ secrets.KUBE_CONFIG }}
 
