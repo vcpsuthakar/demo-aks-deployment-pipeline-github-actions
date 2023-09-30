@@ -39,12 +39,15 @@ jobs:
         resource-group: aks-demo
         cluster-context: akstesting
         
+    - name: List Files in Repository
+      run: ls -R
+
     - name: Deploy to AKS
       uses: Azure/k8s-deploy@v1
       with:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           manifests: |
-            /path/to/your/repository/kubernetes/Deployment.yaml
+            Deployment.yaml
             #./kubernetes/Service.yaml
             #./kubernetes/Ingress.yaml
       env:
