@@ -48,8 +48,8 @@ jobs:
           kubeconfig: ${{ secrets.KUBECONFIG }}
           manifests: |
             ./kubernetes/deployment.yaml
-            ./kubernetes/Service.yaml
-            ./kubernetes/Ingress.yaml
+            ./kubernetes/service.yaml
+            ./kubernetes/ingress.yaml
       env:
         KUBECONFIG: ${{ secrets.KUBE_CONFIG }}
 
