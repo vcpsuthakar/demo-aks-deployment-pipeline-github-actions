@@ -1,14 +1,12 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: openfaas-figlet
-  labels:
-    app: openfaas-figlet
+  name: my-app-service
 spec:
-  type: ClusterIP
-  ports:
-    - port: 8080
-      protocol: TCP
-      targetPort: 8080
   selector:
-    app: openfaas-figlet
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer  
