@@ -1,23 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: openfaas-figlet
-  labels:
-   app: openfaas-figlet
+  name: my-app-deployment
 spec:
-  replicas: 1
+  replicas: 3 
   selector:
     matchLabels:
-      app: openfaas-figlet
+      app: my-app
   template:
     metadata:
       labels:
-        app: openfaas-figlet
+        app: my-app
     spec:
       containers:
-      - name: openfaas-figlet
-        image: functions/figlet:latest
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 8080
-          protocol: TCP
+        - name: my-app-container
+          image: nginx:latest  
+          ports:
+            - containerPort: 80
