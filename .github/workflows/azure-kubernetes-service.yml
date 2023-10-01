@@ -39,17 +39,8 @@ jobs:
         resource-group: aks-demo
         cluster-context: akstesting
         
-    - name: List Files in Repository
-      run: ls -R
-    - name: Set KUBECONFIG
-      run: |
-        echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
-        export KUBECONFIG=kubeconfig.yaml
-        
-    - name: Debug KUBECONFIG
-      run: cat $KUBECONFIG
-    - name: Set Kubernetes Context
-      run: kubectl config use-context akstesting
+    - name: Get AKS Credentials
+      run: az aks get-credentials --resource-group aks-demo --name akstesting
 
     - name: Deploy to AKS
       uses: Azure/k8s-deploy@v1
@@ -59,5 +50,5 @@ jobs:
             ./kubernetes/deployment.yaml
             ./kubernetes/service.yaml
       env:
-        KUBECONFIG: ${{ secrets.KUBE_CONFIG }}
+        KUBECONFIG: ${{ secrets.KUBECONFIG }}
 
