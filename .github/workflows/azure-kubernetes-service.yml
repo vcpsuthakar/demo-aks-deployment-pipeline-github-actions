@@ -41,6 +41,10 @@ jobs:
         
     - name: List Files in Repository
       run: ls -R
+    - name: Set KUBECONFIG
+      run: |
+        echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
+        export KUBECONFIG=kubeconfig.yaml
 
     - name: Deploy to AKS
       uses: Azure/k8s-deploy@v1
