@@ -41,22 +41,20 @@ jobs:
         
     - name: Get AKS Credentials
       run: az aks get-credentials --resource-group aks-demo --name akstesting --context myContext
+           
+    - name: Setup kubectl
+      id: install-kubectl
+      uses: azure/setup-kubectl@v3
       
-    - name: Set Kubernetes Context
-      run: kubectl config use-context myContext
-      
-    - name: Create Kubeconfig
-      run: |
-        echo ${{secrets.KUBECONFIG}} | base64 --decode > ${HOME}/.kube/config
-        cat ${HOME}/.kube/config
-        
     - name: Deploy to AKS
       uses: Azure/k8s-deploy@v1
       with:
+          namespace: 'default'
           manifests: |
             kubernetes/deployment.yaml
             kubernetes/service.yaml
           images: |
             acrtesting123.azurecr.io/mcr.microsoft.com/mcr/hello-world
+            pull-images: false
       env:
         KUBECONFIG: ${{ secrets.KUBECONFIG }}
