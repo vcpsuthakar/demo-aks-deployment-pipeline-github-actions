@@ -44,13 +44,14 @@ jobs:
       
     - name: Set Kubernetes Context
       run: kubectl config use-context myContext
-
+  
     - name: Deploy to AKS
       uses: Azure/k8s-deploy@v1
       with:
           manifests: |
             kubernetes/deployment.yaml
             kubernetes/service.yaml
-            kubectl-version: '1.21.5'
+          images: |
+            acrtesting123.azurecr.io/mcr.microsoft.com/mcr/hello-world
       env:
         KUBECONFIG: ${{ secrets.KUBECONFIG }}
