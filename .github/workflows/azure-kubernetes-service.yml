@@ -40,7 +40,8 @@ jobs:
         cluster-context: akstesting
         
     - name: Get AKS Credentials
-      run: az aks get-credentials --resource-group aks-demo --name akstesting --overwrite-existing
+      run: az aks get-credentials --resource-group aks-demo --name akstesting --context myContext
+
 
     - name: Deploy to AKS
       uses: Azure/k8s-deploy@v1
