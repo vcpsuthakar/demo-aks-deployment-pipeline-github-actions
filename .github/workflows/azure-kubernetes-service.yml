@@ -46,7 +46,6 @@ jobs:
     - name: Deploy to AKS
       uses: Azure/k8s-deploy@v1
       with:
-          kubeconfig: ${{ secrets.KUBECONFIG }}
           manifests: |
             ./kubernetes/deployment.yaml
             ./kubernetes/service.yaml
