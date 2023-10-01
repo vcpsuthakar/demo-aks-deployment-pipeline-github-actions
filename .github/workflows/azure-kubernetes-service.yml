@@ -45,6 +45,11 @@ jobs:
       run: |
         echo "${{ secrets.KUBECONFIG }}" > kubeconfig.yaml
         export KUBECONFIG=kubeconfig.yaml
+        
+    - name: Debug KUBECONFIG
+      run: cat $KUBECONFIG
+    - name: Set Kubernetes Context
+      run: kubectl config use-context akstesting
 
     - name: Deploy to AKS
       uses: Azure/k8s-deploy@v1
