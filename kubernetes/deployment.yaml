@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: my-app-deployment
+  name: acrtesting123
 spec:
   replicas: 3 
   selector:
     matchLabels:
-      app: my-app
+      app: acrtesting123
   template:
     metadata:
       labels:
-        app: my-app
+        app: acrtesting123
     spec:
       containers:
-        - name: my-app-container
-          image: nginx:latest  
+        - name: acrtesting123
+          image: mcr.microsoft.com/mcr/hello-world  
           ports:
             - containerPort: 80
