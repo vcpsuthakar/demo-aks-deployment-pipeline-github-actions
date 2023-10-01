@@ -51,6 +51,6 @@ jobs:
           manifests: |
             kubernetes/deployment.yaml
             kubernetes/service.yaml
+            kubectl-version: '1.21.5'
       env:
         KUBECONFIG: ${{ secrets.KUBECONFIG }}
-
